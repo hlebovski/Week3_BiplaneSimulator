@@ -5,20 +5,18 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-    public Transform playerTransform;
-	private Vector3 _cameraPosition;
+    [SerializeField] private Transform playerTransform; 
+    
+    void Start() {
+        
+    }
 
-	public float YBoundaryValue;
-	public float ZBoundaryValue;
-
-	void Awake() {
-		_cameraPosition.x = transform.position.x;
-	}
     void Update() {
+        float cameraY = transform.position.y;
+        if (playerTransform.position.y <= 130) cameraY = playerTransform.position.y + 5;
 
-		if (playerTransform.position.y < YBoundaryValue & playerTransform.position.y > -YBoundaryValue) _cameraPosition.y = playerTransform.position.y;
-		if (playerTransform.position.z < ZBoundaryValue & playerTransform.position.z > -ZBoundaryValue) _cameraPosition.z = playerTransform.position.z;
+			transform.position = new Vector3(playerTransform.position.x, cameraY, transform.position.z);
 
-		transform.position = _cameraPosition;
-	}
+    }
+
 }

@@ -4,10 +4,34 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour {
 
-	[SerializeField] private float _rotationSpeed = 100f;
+	[SerializeField] private float rotatingPeriod = 100f;
+	[SerializeField] private Transform BombMesh;
 
-	void Update() {
-		transform.Rotate(transform.up, _rotationSpeed * Time.deltaTime);
+	public AudioClip audioClip;
+
+	void Start() {
+
+	}
+
+    void Update() {
+		BombMesh.Rotate(0, rotatingPeriod * Time.deltaTime, 0);
+	}
+
+	private void OnTriggerEnter(Collider other) {
+
+	}
+
+	private void OnCollisionEnter(Collision collision) {
+
+		Player player = collision.gameObject.GetComponent<Player>();
+
+		if (player) {
+			player.Explode(1, player.gameObject.transform.position - transform.position);
+			AudioSource.PlayClipAtPoint(audioClip, gameObject.transform.position);
+
+			Destroy(gameObject);
+
+		}
 	}
 
 }
